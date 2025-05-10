@@ -3,7 +3,7 @@ name: Deploy Vue App to Mijn.Host
 on:
   push:
     branches:
-      - main  # Trigger on push to main
+      - main
 
 jobs:
   build-and-deploy:
@@ -18,6 +18,16 @@ jobs:
         npm install
         npm run build
 
+    - name: Clean Remote Directory
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.SFTP_HOST }}
+        username: ${{ secrets.SFTP_USER }}
+        port: ${{ secrets.SFTP_PORT }}
+        password: ${{ secrets.SFTP_PASSWORD }}
+        script: |
+          rm -rf /home/bp102530/domains/leesrisale.nl/public_html/*
+
     - name: Deploy via SFTP
       uses: appleboy/scp-action@v0.1.7
       with:
@@ -25,6 +35,6 @@ jobs:
         username: ${{ secrets.SFTP_USER }}
         port: ${{ secrets.SFTP_PORT }}
         password: ${{ secrets.SFTP_PASSWORD }}
-        source: "dist/**"   # Selects only the content inside dist, not the folder itself
+        source: "dist/**"
         target: "/home/bp102530/domains/leesrisale.nl/public_html/"
-        strip_components: 1 # Removes the 'dist' folder level during upload
+        strip_components: 1
