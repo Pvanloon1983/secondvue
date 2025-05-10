@@ -24,7 +24,7 @@ jobs:
         host: ${{ secrets.SFTP_HOST }}
         username: ${{ secrets.SFTP_USER }}
         port: ${{ secrets.SFTP_PORT }}
-        password: ${{ secrets.SFTP_PASSWORD }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           rm -rf /home/bp102530/domains/leesrisale.nl/public_html/*
 
@@ -34,7 +34,7 @@ jobs:
         host: ${{ secrets.SFTP_HOST }}
         username: ${{ secrets.SFTP_USER }}
         port: ${{ secrets.SFTP_PORT }}
-        password: ${{ secrets.SFTP_PASSWORD }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: "dist/**"
         target: "/home/bp102530/domains/leesrisale.nl/public_html/"
         strip_components: 1
