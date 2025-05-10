@@ -35,6 +35,6 @@ jobs:
         username: ${{ secrets.SFTP_USER }}
         port: ${{ secrets.SFTP_PORT }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "dist/**"
+        source: "dist/**" # Selects only the content inside dist, not the folder itself
         target: "/home/bp102530/domains/leesrisale.nl/public_html/"
-        strip_components: 1
+        strip_components: 1 # Removes the 'dist' folder level during upload
