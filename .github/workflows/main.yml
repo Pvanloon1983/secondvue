@@ -1,0 +1,30 @@
+name: Deploy Vue App to Mijn.Host
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Install Dependencies & Build
+      run: |
+        npm install
+        npm run build
+
+    - name: Deploy via SFTP
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.SFTP_HOST }}
+        username: ${{ secrets.SFTP_USER }}
+        port: ${{ secrets.SFTP_PORT }}
+        password: ${{ secrets.SFTP_PASSWORD }}
+        source: "dist/**"   # Selects only the content inside dist, not the folder itself
+        target: "/home/bp102530/domains/leesrisale.nl/public_html/"
+        strip_components: 1 # Removes the 'dist' folder level during upload
